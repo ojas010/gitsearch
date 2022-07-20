@@ -1,9 +1,22 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import styled from 'styled-components';
-import loginImg from '../images/login-img.svg';
+import Octocat from '../images/Octocat.png';
 const Login = () => {
-  return <h2>login page</h2>;
+  const {loginWithRedirect} = useAuth0()
+  return <Wrapper>
+    <div className='container'>
+      <img src={Octocat} alt="logo" />
+      <p>
+      <h1>GitSearch</h1>
+      <h4>A GitHub User Library</h4>
+      </p>
+      <br></br>
+      <button className='btn' onClick={loginWithRedirect}>
+        Login / Sign Up
+      </button>
+    </div>
+  </Wrapper>;
 };
 const Wrapper = styled.section`
   min-height: 100vh;
@@ -18,7 +31,11 @@ const Wrapper = styled.section`
     margin-bottom: 2rem;
   }
   h1 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0rem;
+  }
+  h4 {
+    color: var(--clr-primary-5);
+    font-weight: 600;
   }
 `;
 export default Login;

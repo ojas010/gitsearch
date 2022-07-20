@@ -3,7 +3,37 @@ import styled from 'styled-components';
 import { MdSearch } from 'react-icons/md';
 import { GithubContext } from '../context/context';
 const Search = () => {
-  return <h2>search component</h2>;
+  const [user, setUser] = React.useState('');
+  const {requests, error, searchGithubUser, isLoading} = React.useContext(GithubContext);
+
+  // get things from global context
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(user){
+
+      searchGithubUser(user);
+
+      setUser('');
+    }
+    console.log(user);
+  };
+  return <section className='section'>
+    <Wrapper className='section-center'>
+      {error.show &&
+      <ErrorWrapper>
+        <p>{error.msg}</p>
+      </ErrorWrapper>
+      }
+      <form onSubmit={handleSubmit}>
+        <div className='form-control'>
+          <MdSearch />
+          <input type='text' placeholder='Enter GitHub User' value={user} onChange={(e)=>setUser(e.target.value)} />
+          {requests > 0 && !isLoading && (<button type='submit'>Search</button>)}
+        </div>
+      </form>
+      <h4>Requests: {requests}/60</h4>
+    </Wrapper>
+  </section>
 };
 
 const Wrapper = styled.div`
@@ -33,9 +63,10 @@ const Wrapper = styled.div`
       padding: 0.25rem 0.5rem;
     }
     input::placeholder {
-      color: var(--clr-grey-3);
+      color: var(--clr-primary-5);
       text-transform: capitalize;
       letter-spacing: var(--spacing);
+      font-size: 20px;
     }
     button {
       border-radius: 5px;
@@ -69,10 +100,10 @@ const Wrapper = styled.div`
       }
     }
   }
-  h3 {
+  h4 {
     margin-bottom: 0;
     color: var(--clr-grey-5);
-    font-weight: 400;
+    font-weight: 600;
   }
 `;
 const ErrorWrapper = styled.article`
